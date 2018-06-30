@@ -1,1 +1,5 @@
-org/muks/scm/AppTest.class
+org/muks/fsm/dao/PacketTests.class
+org/muks/fsm/fsm/FsmTests.class
+org/muks/fsm/AppTest.class
+org/muks/fsm/metadata/TestEventActions.class
+org/muks/fsm/metadata/TestStates.class

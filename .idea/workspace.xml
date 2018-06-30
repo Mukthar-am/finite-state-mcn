@@ -2,30 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81c16727-043d-4d9f-a399-a67a844dca6d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/configs/states.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/businessobjects/Packet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/businessobjects/StateTupple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/metadata/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/metadata/Signals.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/metadata/States.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/statemachine/Fsm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsm/statemachine/FsmListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsmdrivers/OMSThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsmdrivers/observers/OrderCancellationObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsmdrivers/observers/OrderFullfilmentObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/muks/fsmdrivers/observers/Subscriber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/dao/PacketTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/fsm/FsmTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/metadata/TestEventActions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/metadata/TestStates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/TestSuite.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/muks/scm/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/muks/scm/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/muks/fsm/metadata/TestStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/muks/fsm/metadata/TestStates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.muks.scm.AppTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/junitreports/TEST-org.muks.scm.AppTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.muks.scm.AppTest.txt" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

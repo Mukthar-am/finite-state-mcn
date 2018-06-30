@@ -3,7 +3,9 @@
 <suite thread-count="1" verbose="0" name="Failed suite [Surefire suite]">
   <test name="Surefire test">
     <classes>
-      <class name="org.muks.scm.AppTest"/>
+      <class name="org.muks.fsm.AppTest"/>
+      <class name="org.muks.fsm.metadata.TestEventActions"/>
+      <class name="org.muks.fsm.metadata.TestStates"/>
     </classes>
   </test> <!-- Surefire test -->
 </suite> <!-- Failed suite [Surefire suite] -->

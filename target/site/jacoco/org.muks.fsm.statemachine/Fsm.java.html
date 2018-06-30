@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Fsm.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fsm</a> &gt; <a href="index.source.html" class="el_package">org.muks.fsm.statemachine</a> &gt; <span class="el_source">Fsm.java</span></div><h1>Fsm.java</h1><pre class="source lang-java linenums">package org.muks.fsm.statemachine;
+
+import org.muks.fsm.businessobjects.Packet;
+import org.muks.fsm.businessobjects.StateTupple;
+import org.muks.fsm.metadata.Signals;
+import org.muks.fsmdrivers.observers.Subscriber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+
+
+public class Fsm implements FsmListener {
+<span class="fc" id="L19">    private Logger LOG = LoggerFactory.getLogger(Fsm.class);</span>
+<span class="fc" id="L20">    private List&lt;Subscriber&gt; subscribers = new ArrayList&lt;&gt;();</span>
+
+    /** thread safe */
+<span class="fc" id="L23">    ConcurrentHashMap&lt;Integer, Packet&gt; PACKETS = new ConcurrentHashMap&lt;&gt;();</span>
+
+<span class="fc" id="L25">    private static Fsm instance = null;</span>
+
+<span class="fc" id="L27">    Signals signals = new Signals();</span>
+
+<span class="fc" id="L29">    private Fsm() {};</span>
+
+    public static Fsm getInstance() {
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if (instance == null)</span>
+<span class="fc" id="L33">            instance = new Fsm();</span>
+
+<span class="fc" id="L35">        return instance;</span>
+    }
+
+
+    /**
+     * Init state and signals from a given input properties file rather than hardcoding it.
+     * @param stateDefinitions
+     */
+    public Fsm init(String stateDefinitions) {
+<span class="fc" id="L44">        Properties prop = new Properties();</span>
+<span class="fc" id="L45">        InputStream input = null;</span>
+
+        try {
+
+<span class="fc" id="L49">            input = new FileInputStream(stateDefinitions);</span>
+
+            // load a properties file
+<span class="fc" id="L52">            prop.load(input);</span>
+<span class="fc" id="L53">            Set&lt;Object&gt; keys = prop.keySet();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (Object key : keys) {</span>
+<span class="fc" id="L55">                signals.add(key.toString(), prop.getProperty(key.toString()));</span>
+<span class="fc" id="L56">            }</span>
+
+<span class="nc" id="L58">        } catch (IOException ex) {</span>
+<span class="nc" id="L59">            LOG.error(&quot;Exception&quot;, ex);</span>
+
+        } finally {
+<span class="pc bpc" id="L62" title="5 of 6 branches missed.">            if (input != null) {</span>
+                try {
+<span class="pc" id="L64">                    input.close();</span>
+<span class="nc" id="L65">                } catch (IOException e) {</span>
+<span class="nc" id="L66">                    LOG.error(&quot;Exception&quot;, e);</span>
+<span class="pc" id="L67">                }</span>
+            }
+<span class="nc" id="L69">        }</span>
+
+<span class="fc" id="L71">        LOG.info(signals.toString());</span>
+
+<span class="fc" id="L73">        return this;</span>
+    }
+
+
+    /**
+     * Listen and set
+     * @param event - which is a signal
+     * @param packet     - Packet object of the input message
+     */
+    @Override
+    public void listen(String event, Packet packet) {
+<span class="fc" id="L84">        String fsmState = signals.getState(event.toLowerCase());</span>
+
+<span class="fc" id="L86">        final Object lock = new Object();</span>
+<span class="fc" id="L87">        synchronized (lock) {</span>
+<span class="fc" id="L88">            StateTupple stateTupple = new StateTupple();</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">            if (this.PACKETS.containsKey(packet.getId()))</span>
+<span class="nc" id="L90">                stateTupple = getStateInfo(packet);</span>
+
+<span class="fc" id="L92">            LOG.info(&quot;&quot;);</span>
+<span class="fc" id="L93">            LOG.info(&quot;Setting =&gt; From: {}, To: {}&quot;, stateTupple.current, fsmState);</span>
+<span class="fc" id="L94">            packet.setState(stateTupple.current, fsmState);</span>
+
+<span class="fc" id="L96">            this.PACKETS.put(packet.getId(), packet);</span>
+
+            /** broadcast state change */
+<span class="fc" id="L99">            broadcastStateChage(packet);</span>
+<span class="pc" id="L100">        }</span>
+
+<span class="fc" id="L102">        LOG.info(&quot;Packet being added ({}) =&gt; {}&quot;, event, packet.toString());</span>
+
+
+<span class="fc" id="L105">    }</span>
+
+    /**
+     * Listen and set
+     * @param event - which is a signal
+     * @param packetId     - Packet ID of the input packet
+     */
+    public void listen(String event, int packetId) throws Exception {
+<span class="fc" id="L113">        String fsmState = signals.getState(event.toLowerCase());</span>
+
+<span class="fc" id="L115">        final Object lock = new Object();</span>
+<span class="fc" id="L116">        synchronized (lock) {</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">            if (this.PACKETS.containsKey(packetId)) {</span>
+<span class="fc" id="L118">                Packet packet = this.PACKETS.get(packetId); /** Retrive packet */</span>
+<span class="fc" id="L119">                StateTupple stateTupple = getStateInfo(packet); /** obtain both the states */</span>
+
+<span class="fc" id="L121">                LOG.info(&quot;&quot;);</span>
+<span class="fc" id="L122">                LOG.info(&quot;Setting =&gt; From: {}, To: {}&quot;, stateTupple.current, fsmState);</span>
+<span class="fc" id="L123">                packet.setState(stateTupple.current, fsmState); /** set the previous and current state */</span>
+
+<span class="fc" id="L125">                LOG.info(&quot;Packet being added ({}) =&gt; {}&quot;, event, packet.toString());</span>
+
+                /** broadcast state change */
+<span class="fc" id="L128">                broadcastStateChage(packet);</span>
+<span class="fc" id="L129">            } else {</span>
+<span class="nc" id="L130">                throw new Exception(&quot;Fsm cannot work on the given packet: &quot;);</span>
+            }
+
+<span class="pc" id="L133">        }</span>
+
+<span class="fc" id="L135">    }</span>
+
+
+    /**
+     * Obtain state tupple of the packet to move from one state to another
+     * @param packet - input packet object
+     * @return  - state tupple object
+     */
+    private StateTupple getStateInfo(Packet packet) {
+<span class="fc" id="L144">        return this.PACKETS.get(packet.getId()).getStateInfo();</span>
+    }
+
+
+    /**
+     * Registered subscriber to notify.
+     */
+    public void subscriberOptIn(Subscriber subscriber) {
+<span class="fc" id="L152">        this.subscribers.add(subscriber);</span>
+<span class="fc" id="L153">    }</span>
+
+
+    /**
+     * Registered subscriber to notify.
+     */
+    public void subscriberOptOut(Subscriber subscriber) {
+<span class="nc" id="L160">        this.subscribers.add(subscriber);</span>
+<span class="nc" id="L161">    }</span>
+
+    private void broadcastStateChage(Packet packet) {
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        for (Subscriber subscriber : subscribers) {</span>
+<span class="fc" id="L165">            subscriber.stateChange(packet);</span>
+<span class="fc" id="L166">        }</span>
+<span class="fc" id="L167">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.muks.scm.AppTest" time="0.013" tests="1" errors="0" skipped="0" failures="0">
+<testsuite name="TestSuite" time="0.053" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/jre/lib"/>
@@ -60,5 +60,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase name="Test1" classname="org.muks.scm.AppTest" time="0.013"/>
+  <testcase name="Test1" classname="org.muks.fsm.AppTest" time="0.013"/>
+  <testcase name="TestAddSignals" classname="org.muks.fsm.metadata.TestEventActions" time="0.036"/>
+  <testcase name="TestEvent" classname="org.muks.fsm.metadata.TestEventActions" time="0.001"/>
+  <testcase name="TestStateCalls" classname="org.muks.fsm.metadata.TestStates" time="0.003"/>
 </testsuite>

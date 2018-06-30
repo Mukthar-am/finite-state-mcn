@@ -1,1 +1,5 @@
-/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/scm/AppTest.java
+/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/fsm/fsm/FsmTests.java
+/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/fsm/dao/PacketTests.java
+/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/fsm/metadata/TestEventActions.java
+/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/fsm/metadata/TestStates.java
+/Users/mukthara/Data/git/personal/fsm/src/test/java/org/muks/fsm/AppTest.java

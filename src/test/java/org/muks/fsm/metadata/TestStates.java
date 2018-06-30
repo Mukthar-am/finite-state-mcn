@@ -9,11 +9,11 @@ public class TestStates {
     public void TestStateCalls() {
         States state = States.FULLFILL_ORDER;
 
-        if (state.equals( States.FULLFILL_ORDER) && state.toString().equalsIgnoreCase("created")) {
+        if (state.equals( States.FULLFILL_ORDER) && state.toString().equalsIgnoreCase("FULLFILL_ORDER")) {
             System.out.println("state: "+ state.toString());
 
         }
 
-        Assert.assertEquals(state.toString(), "created");
+        Assert.assertEquals(state.toString(), "FULLFILL_ORDER");
     }
 }

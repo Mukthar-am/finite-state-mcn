@@ -5,7 +5,7 @@
 
     <test name="Parallel Test Mode" group-by-instances="true">
         <classes>
-            <class name="org.muks.fsm.AppTest" />
+            <class name="org.muks.fk.fsm.AppTest" />
         </classes>
     </test>
 
